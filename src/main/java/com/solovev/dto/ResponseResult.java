@@ -5,6 +5,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.Objects;
+
+/**
+ * Class to represent response from server;
+ * If message is not null there is data, and otherwise
+ * @param <T>
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseResult<T> {
     private String message;
