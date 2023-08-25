@@ -5,14 +5,20 @@ import java.sql.SQLException;
 import java.util.Collection;
 
 public interface Repository<T> {
-        boolean add (T elem);
-        T delete(int elemId);
+        /**
+         * Adds value to repository, returns added object or throws if object has not been added
+         * @param elem
+         * @return
+         * @throws IOException
+         */
+        T add (T elem) throws IOException;
+        T delete(int elemId) throws IOException;
         Collection<T> takeData() throws IOException;
 
         /**
          * Gets the element with given id
-         * @param elemId
-         * @return
+         * @param elemId id of the element
+         * @return element with this id or throws if have not been found
          * @throws IOException
          */
         T takeData(int elemId) throws IOException;
