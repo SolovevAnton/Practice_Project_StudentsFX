@@ -22,6 +22,12 @@ public interface Repository<T> {
          * @throws IOException
          */
         T takeData(int elemId) throws IOException;
-        boolean replace(T newElem);
+
+        /**
+         * replaces object in the DB
+         * @param newElem
+         * @return replaced object or throws if not found
+         */
+        T replace(T newElem) throws IOException;
 
 }

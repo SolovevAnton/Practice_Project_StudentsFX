@@ -79,6 +79,18 @@ public class AbstractRepositoryTest {
         assertThrows(IllegalArgumentException.class,()-> repo.delete(0));
 
     }
+    @Test
+    public void replaceTest() throws IOException {
+        String toBeReplaced = "String to be replaced";
+        String toReplaceWith = "String to replace with";
+        String corruptedData = "String with corrupted data";
+
+        requestObjectResponseObjectFactory(toReplaceWith,toBeReplaced, AbstractRepository.SupportedMethods.PUT);
+        requestObjectResponseMessageFactory(corruptedData,"Cannot find object with this ID", AbstractRepository.SupportedMethods.PUT);
+
+        assertEquals(toBeReplaced,repo.replace(toReplaceWith));
+        assertThrows(IllegalArgumentException.class,()-> repo.replace(corruptedData));
+    }
     @Spy
     private TestRepo repo;
 

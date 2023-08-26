@@ -8,6 +8,6 @@ import java.net.URL;
 
 public class StudentRepository extends AbstractRepository<Student> {
     public StudentRepository() throws IOException {
-        super(Student.class, Constants.SERVER_URL,"/students");
+        super(Constants.SERVER_URL,"/students");
     }
 }

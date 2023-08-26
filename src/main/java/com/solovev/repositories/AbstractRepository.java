@@ -18,7 +18,6 @@ import java.util.Collection;
 
 public abstract class AbstractRepository<T> implements Repository<T> {
 
-    private final Class<T> thisClass;
     private final String link;
 
     private final ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
@@ -29,12 +28,10 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     enum SupportedMethods {GET, PUT, POST, DELETE}
 
     /**
-     * @param thisClass   class T that is used in this repo
      * @param link        link to server
      * @param servletName Servlet to get access to for example /tv, /students /cars, etc
      */
-    public AbstractRepository(Class<T> thisClass, String link, String servletName) {
-        this.thisClass = thisClass;
+    public AbstractRepository(String link, String servletName) {
         this.link = link + servletName;
     }
 
@@ -44,10 +41,10 @@ public abstract class AbstractRepository<T> implements Repository<T> {
      * @return Data or throws if got error message from server
      * @throws IOException
      */
-    private <U> U streamProcessing(InputStream reader) throws IOException {
-        ResponseResult<U> responseResult = objectMapper.readValue(reader, new TypeReference<>() {
+    private T streamProcessing(InputStream reader) throws IOException {
+        ResponseResult<T> responseResult = objectMapper.readValue(reader, new TypeReference<>() {
         });
-        U data = responseResult.getData();
+        T data = responseResult.getData();
         if (data != null) {
             return data;
         } else {
@@ -125,7 +122,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     @Override
     public Collection<T> takeData() throws IOException {
         try (InputStream reader = makeRequest("", SupportedMethods.GET)) {
-            return streamProcessing(reader);
+            return null;
         }
     }
 
@@ -136,11 +133,11 @@ public abstract class AbstractRepository<T> implements Repository<T> {
             return streamProcessing(reader);
         }
     }
-
-
     @Override
-    public boolean replace(T newElem) {
-        return false;
+    public T replace(T newElem) throws IOException {
+        try (InputStream reader = makeRequest(SupportedMethods.PUT, newElem)) {
+            return streamProcessing(reader);
+        }
     }
 
 }
