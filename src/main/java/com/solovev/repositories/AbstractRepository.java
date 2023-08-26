@@ -1,6 +1,7 @@
 package com.solovev.repositories;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.solovev.dto.ResponseResult;
 
@@ -21,6 +22,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     private final String link;
 
     private final ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
+    private final Class<T> tClass;
 
     /**
      * made package private for test
@@ -31,8 +33,9 @@ public abstract class AbstractRepository<T> implements Repository<T> {
      * @param link        link to server
      * @param servletName Servlet to get access to for example /tv, /students /cars, etc
      */
-    public AbstractRepository(String link, String servletName) {
+    public AbstractRepository(String link, String servletName, Class<T> tClass) {
         this.link = link + servletName;
+        this.tClass = tClass;
     }
 
     /**
@@ -42,8 +45,10 @@ public abstract class AbstractRepository<T> implements Repository<T> {
      * @throws IOException
      */
     private T streamProcessing(InputStream reader) throws IOException {
-        ResponseResult<T> responseResult = objectMapper.readValue(reader, new TypeReference<>() {
-        });
+        JavaType resultType =
+                objectMapper.getTypeFactory().constructParametricType(ResponseResult.class, tClass);
+
+        ResponseResult<T> responseResult = objectMapper.readValue(reader, resultType);
         T data = responseResult.getData();
         if (data != null) {
             return data;
@@ -122,7 +127,14 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     @Override
     public Collection<T> takeData() throws IOException {
         try (InputStream reader = makeRequest("", SupportedMethods.GET)) {
-            return null;
+            ResponseResult<Collection<T>> responseResult = objectMapper.readValue(reader, new TypeReference<>() {
+            });
+            Collection<T> data = responseResult.getData();
+            if (data != null) {
+                return data;
+            } else {
+                throw new IllegalArgumentException(responseResult.getMessage());
+            }
         }
     }
 
@@ -133,6 +145,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
             return streamProcessing(reader);
         }
     }
+
     @Override
     public T replace(T newElem) throws IOException {
         try (InputStream reader = makeRequest(SupportedMethods.PUT, newElem)) {

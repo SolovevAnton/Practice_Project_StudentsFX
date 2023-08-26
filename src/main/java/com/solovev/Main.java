@@ -22,7 +22,7 @@ public class Main {
 
         //add test
         IdHolder added = repository.add(toAdd);
-        System.out.println(repository.add(toAdd)); //MODIFIES ORIGINAL DB
+        System.out.println(added); //MODIFIES ORIGINAL DB
         //test error:
         try {
             repository.add(corrupted);
@@ -55,11 +55,11 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException { //todo remove from main
         Repository<Student> studentRepository = new StudentRepository();
-        Student student = studentRepository.takeData(1);
-//        realDBTest(studentRepository,
-//                new Student(0, "added", 30, 200, 20.1),
-//                new Student(0,"toReplace",19,201,22),
-//                new Student());
+
+        realDBTest(studentRepository,
+                new Student(0, "added", 30, 200, 20.1),
+                new Student(0,"toReplace",19,201,22),
+                new Student());
 
     }
 }
