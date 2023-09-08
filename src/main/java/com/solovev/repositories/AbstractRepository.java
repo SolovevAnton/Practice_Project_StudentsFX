@@ -42,7 +42,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
      * checks if this response result in this stream contains data return this data, otherwise throws with message of the error
      *
      * @return Data or throws if got error message from server
-     * @throws IOException
+     * @throws IOException if IO exception occurs
      */
     private T streamProcessing(InputStream reader) throws IOException {
         JavaType resultType =
@@ -61,10 +61,10 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     /**
      * made public only for tests
      *
-     * @param request
+     * @param request request parameters
      * @param method  this method used only for GET and DELETE methods
-     * @return
-     * @throws IOException
+     * @return stream with response result from the server
+     * @throws IOException if IO exception occurs
      */
     public InputStream makeRequest(String request, SupportedMethods method) throws IOException {
         URL url = new URL(link + request);
@@ -84,10 +84,10 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     /**
      * Order changed because if T is string there is a problem with method overloading //todo how to avoid this stuff?
      *
-     * @param method
-     * @param object
-     * @return
-     * @throws IOException
+     * @param method used for Put and Post methods
+     * @param object to send to server as a JSON object
+     * @return stream with response result from the server
+     * @throws IOException if IO exception occurs
      */
     public InputStream makeRequest(SupportedMethods method, T object) throws IOException {
         URL url = new URL(link);

@@ -32,7 +32,7 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-        Thread.sleep(5000); //to check if it appeared in the DB
+        Thread.sleep(0); //to check if it appeared in the DB
 
         //replace test
         toReplace.setId(added.getId());
@@ -43,7 +43,7 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-        Thread.sleep(5000);//to check if it appeared in the DB
+        Thread.sleep(0);//to check if it appeared in the DB
 
 
         //delete test
@@ -65,7 +65,7 @@ public class Main {
                     new Student(0, "added", 30, 200, 20.1),
                     new Student(0, "toReplace", 19, 201, 22),
                     new Student());
-            Thread.sleep(5000);
+            Thread.sleep(0);
 
             //cars real db Test
             System.out.println();

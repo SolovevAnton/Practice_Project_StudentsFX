@@ -15,8 +15,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.Assert.fail;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.doReturn;
 
@@ -62,35 +61,38 @@ public class AbstractRepositoryTest {
         requestObjectResponseObjectFactory(toAdd, toAdd, AbstractRepository.SupportedMethods.POST);
         requestObjectResponseMessageFactory(corruptedString, "some sql exception message", AbstractRepository.SupportedMethods.POST);
 
-        assertEquals(toAdd,repo.add(toAdd));
-        assertThrows(IllegalArgumentException.class,()-> repo.add(corruptedString));
+        assertEquals(toAdd, repo.add(toAdd));
+        assertThrows(IllegalArgumentException.class, () -> repo.add(corruptedString));
 
     }
+
     @Test
     public void deleteTest() throws IOException {
         String toDelete = "String to delete"; //it is count as having id 1
         String requestSuccessfullyDelete = "?id=1";
         String requestCannotDelete = "?id=0";
 
-        requestResponseObjectFactory(requestSuccessfullyDelete,toDelete, AbstractRepository.SupportedMethods.DELETE);
-        requestResponseMessageFactory(requestCannotDelete,"Cannot find object with this ID", AbstractRepository.SupportedMethods.DELETE);
+        requestResponseObjectFactory(requestSuccessfullyDelete, toDelete, AbstractRepository.SupportedMethods.DELETE);
+        requestResponseMessageFactory(requestCannotDelete, "Cannot find object with this ID", AbstractRepository.SupportedMethods.DELETE);
 
-        assertEquals(toDelete,repo.delete(1));
-        assertThrows(IllegalArgumentException.class,()-> repo.delete(0));
+        assertEquals(toDelete, repo.delete(1));
+        assertThrows(IllegalArgumentException.class, () -> repo.delete(0));
 
     }
+
     @Test
     public void replaceTest() throws IOException {
         String toBeReplaced = "String to be replaced";
         String toReplaceWith = "String to replace with";
         String corruptedData = "String with corrupted data";
 
-        requestObjectResponseObjectFactory(toReplaceWith,toBeReplaced, AbstractRepository.SupportedMethods.PUT);
-        requestObjectResponseMessageFactory(corruptedData,"Cannot find object with this ID", AbstractRepository.SupportedMethods.PUT);
+        requestObjectResponseObjectFactory(toReplaceWith, toBeReplaced, AbstractRepository.SupportedMethods.PUT);
+        requestObjectResponseMessageFactory(corruptedData, "Cannot find object with this ID", AbstractRepository.SupportedMethods.PUT);
 
-        assertEquals(toBeReplaced,repo.replace(toReplaceWith));
-        assertThrows(IllegalArgumentException.class,()-> repo.replace(corruptedData));
+        assertEquals(toBeReplaced, repo.replace(toReplaceWith));
+        assertThrows(IllegalArgumentException.class, () -> repo.replace(corruptedData));
     }
+
     @Spy
     private TestRepo repo;
 
@@ -112,7 +114,7 @@ public class AbstractRepositoryTest {
      *
      * @param responseResultObject object to be returned
      */
-    private void requestObjectResponseObjectFactory(String objectToPutInRequest, String  responseResultObject, AbstractRepository.SupportedMethods method) throws IOException {
+    private void requestObjectResponseObjectFactory(String objectToPutInRequest, String responseResultObject, AbstractRepository.SupportedMethods method) throws IOException {
         ResponseResult<String> resultToReturn = new ResponseResult<>();
         resultToReturn.setData(responseResultObject);
         String returnString = objectMapper.writeValueAsString(resultToReturn);
@@ -138,5 +140,6 @@ public class AbstractRepositoryTest {
         String returnString = objectMapper.writeValueAsString(resultToReturn);
         doReturn(new ByteArrayInputStream(returnString.getBytes())).when(repo).makeRequest(method, objectToPutInRequest);
     }
+
     private final ObjectMapper objectMapper = new ObjectMapper().findAndRegisterModules();
 }
