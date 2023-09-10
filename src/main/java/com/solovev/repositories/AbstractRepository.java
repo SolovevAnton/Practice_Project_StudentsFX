@@ -82,7 +82,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     }
 
     /**
-     * Order changed because if T is string there is a problem with method overloading //todo how to avoid this stuff?
+     * Order changed because if T is string there is a problem with method overloading
      *
      * @param method used for Put and Post methods
      * @param object to send to server as a JSON object

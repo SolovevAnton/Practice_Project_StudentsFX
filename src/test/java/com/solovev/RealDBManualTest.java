@@ -10,7 +10,10 @@ import com.solovev.repositories.StudentRepository;
 import java.io.IOException;
 import java.time.Year;
 
-public class Main {
+/**
+ * In this class real DB tests runs
+ */
+public class RealDBManualTest {
     static <T extends IdHolder> void realDBTest(Repository<T> repository, T toAdd, T toReplace, T corrupted) throws IOException, InterruptedException {
 
         //take data test
