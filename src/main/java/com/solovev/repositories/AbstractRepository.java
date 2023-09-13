@@ -1,13 +1,16 @@
 package com.solovev.repositories;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.CollectionType;
 import com.solovev.dto.ResponseResult;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -127,8 +130,12 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     @Override
     public Collection<T> takeData() throws IOException {
         try (InputStream reader = makeRequest("", SupportedMethods.GET)) {
-            ResponseResult<Collection<T>> responseResult = objectMapper.readValue(reader, new TypeReference<>() {
-            });
+
+            // construct correct deserializer for response result class
+            CollectionType collectionType = objectMapper.getTypeFactory().constructCollectionType(Collection.class,tClass);
+            JavaType type = objectMapper.getTypeFactory().constructParametricType(ResponseResult.class, collectionType);
+
+            ResponseResult<Collection<T>> responseResult = objectMapper.readValue(reader, type);
             Collection<T> data = responseResult.getData();
             if (data != null) {
                 return data;

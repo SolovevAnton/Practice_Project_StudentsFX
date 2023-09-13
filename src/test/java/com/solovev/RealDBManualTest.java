@@ -60,6 +60,7 @@ public class RealDBManualTest {
     }
 
     public static void main(String[] args) {
+
         try {
             Repository<Student> studentRepository = new StudentRepository();
             Repository<Car> carRepository = new CarRepository();
