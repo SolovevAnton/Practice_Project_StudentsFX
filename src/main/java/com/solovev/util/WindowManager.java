@@ -50,7 +50,7 @@ public class WindowManager {
      * @param title of the stage
      * @param data  to pass to the stage, or null if nothing
      * @return created stage
-     * @throws IOException
+     * @throws IOException if IO occurred
      */
     public static <T> Stage openWindow(String name, String title, T data) throws IOException {
         Stage stage = getStage(name, title, data);
@@ -65,7 +65,7 @@ public class WindowManager {
      * @param title of the stage
      * @param data  to pass to the stage, or null if nothing
      * @return created stage
-     * @throws IOException
+     * @throws IOException if IO occurred
      */
     public static <T> Stage openWindowAndWait(String name, String title, T data) throws IOException {
         Stage stage = getStage(name, title, data);

@@ -2,9 +2,10 @@ package com.solovev.controllers;
 
 import com.solovev.model.Student;
 import com.solovev.repositories.StudentRepository;
-import javafx.beans.property.ReadOnlyObjectWrapper;
+import com.solovev.util.WindowManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -29,23 +30,51 @@ public class MainController {
 
     public void initialize() throws IOException {
         //initialize columns
-        initializeTable();
+        initializeTableColumns();
 
+        //add items
         List<Student> students = new ArrayList<>(new StudentRepository().takeData());
         studentsTable.setItems(FXCollections.observableList(students));
+
+        //initialize muse click action
+        initializeMouseDoubleClickActionOnTable();
     }
 
     /**
      * Initializes table columns
      */
-    private void initializeTable() {
+    private void initializeTableColumns() {
         //initializes columns
-        columnId.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(cellData.getValue().getId()));
+        columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnAge.setCellValueFactory(new PropertyValueFactory<>("age"));
+        columnNum.setCellValueFactory(new PropertyValueFactory<>("num"));
+        columnSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+    }
 
-//        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
-//        columnAge.setCellValueFactory(new PropertyValueFactory<>("age"));
-//        columnNum.setCellValueFactory(new PropertyValueFactory<>("num"));
-//        columnSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+    /**
+     * Sets action of the double click on the tables value
+     */
+    private void initializeMouseDoubleClickActionOnTable() {
+        studentsTable.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2) {
+                openCarsWindow(studentsTable.getSelectionModel().getSelectedItem());
+            }
+        });
+    }
+
+    /**
+     * opens window with student cars
+     *
+     * @param student to open cars window for
+     */
+    private void openCarsWindow(Student student) {
+        try {
+            WindowManager.openWindowAndWait("/com/solovev/CarsTable.fxml", "Student's cars", student);
+        } catch (IOException e) {
+            WindowManager.showAlertWithoutHeaderText("IO Exception occurred", e.toString(), Alert.AlertType.ERROR);
+            throw new RuntimeException(e);
+        }
     }
 
 }

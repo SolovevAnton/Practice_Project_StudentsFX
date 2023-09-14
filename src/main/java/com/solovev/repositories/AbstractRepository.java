@@ -28,7 +28,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     private final Class<T> tClass;
 
     /**
-     * made package private for test
+     * made package private for tests
      */
     enum SupportedMethods {GET, PUT, POST, DELETE}
 
