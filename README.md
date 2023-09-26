@@ -6,13 +6,13 @@ Front part for the students servlet project
 StudentsClient is the client-side component of the StudentsServlets project, designed to interact with the server-side APIs for managing student and auto data. This project leverages various technologies and tools to provide a user-friendly interface for viewing, updating, and deleting student and auto entities.
 Technologies Used
 
-    JBoss WildFly / Apache Tomcat: The project can be deployed onr Apache Tomcat,  Java application servers.
+    Apache Tomcat: The project can be deployed onr Apache Tomcat,  Java application server.
     Servlet API: Java Servlets are used for handling HTTP requests and responses.
     MySQL DB: MySQL is employed as the database management system for storing student and auto data.
     JDBC: Java Database Connectivity is used for database interactions.
     Jackson: The Jackson library is used for JSON data serialization and deserialization
 
-## Deswcrition
+## Description
 1. Data Model Consistency: StudentsClient features a meticulously designed data model that mirrors the data structure used in the StudentsServlets project. This alignment ensures seamless data consistency and efficient communication between the client and server components.
 
 2. Client Repositories: Within this project, you'll find well-defined client-side repositories. These repositories act as intermediaries between the client application and the server-side APIs. Each repository method is thoughtfully crafted to facilitate smooth interaction with the server.
