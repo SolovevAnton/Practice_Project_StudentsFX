@@ -4,10 +4,10 @@ import com.solovev.model.Student;
 import com.solovev.repositories.StudentRepository;
 import com.solovev.util.WindowManager;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -50,7 +50,38 @@ public class MainController {
         columnAge.setCellValueFactory(new PropertyValueFactory<>("age"));
         columnNum.setCellValueFactory(new PropertyValueFactory<>("num"));
         columnSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
+
+        addDeleteButtonColumn();
     }
+    private void addDeleteButtonColumn(){
+        TableColumn<Student, Button> buttonTableColumn = new TableColumn<>("Delete");
+        studentsTable.getColumns().add(buttonTableColumn);
+        buttonTableColumn.setCellFactory(tc -> new TableCell<>(){
+                    final Button btn = deleteButtonFactory();
+                    @Override
+                    public void updateItem(Button item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (empty) {
+                            setGraphic(null);
+                            setText(null);
+                        } else {
+                            setGraphic(btn);
+                            setText(null);
+                        }
+                    }
+                }
+        );
+    }
+
+    private Button deleteButtonFactory(){
+        Button deleteButton = new Button("Delete");
+        deleteButton.setAlignment(Pos.CENTER);
+        deleteButton.getStyleClass().add("danger");
+        //todo add func
+        deleteButton.setOnAction(event -> System.out.println("deleted"));
+        return deleteButton;
+    }
+
 
     /**
      * Sets action of the double click on the tables value
@@ -77,4 +108,7 @@ public class MainController {
         }
     }
 
+    @FXML
+    public void addStudentButton(ActionEvent actionEvent) {
+    }
 }

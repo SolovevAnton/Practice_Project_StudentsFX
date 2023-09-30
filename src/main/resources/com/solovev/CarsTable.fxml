@@ -2,8 +2,9 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="300.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.controllers.CarsTableController">
+<AnchorPane prefHeight="300.0" prefWidth="300.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.controllers.CarsTableController">
     <children>
         <TableView fx:id="tableCars" layoutY="111.0" prefHeight="200.0" prefWidth="300.0">
             <columns>
@@ -12,8 +13,11 @@
                 <TableColumn fx:id="columnPower" prefWidth="75.0" text="Power" />
                 <TableColumn fx:id="columnYear" prefWidth="75.0" text="Year" />
             </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
         </TableView>
-        <GridPane layoutX="50.0" layoutY="14.0" prefHeight="90.0" prefWidth="201.0">
+        <GridPane layoutX="14.0" layoutY="14.0" prefHeight="90.0" prefWidth="201.0">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="95.0" minWidth="10.0" prefWidth="84.0" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="116.0" minWidth="10.0" prefWidth="116.0" />
@@ -32,5 +36,10 @@
                 <Label fx:id="labelNum" text="Num" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             </children>
         </GridPane>
+      <Button layoutX="227.0" layoutY="72.0" mnemonicParsing="false" onAction="#addCarButton" styleClass="success" text="+ Add">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
     </children>
 </AnchorPane>
