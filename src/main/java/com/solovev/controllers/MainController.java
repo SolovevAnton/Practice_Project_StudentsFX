@@ -37,6 +37,7 @@ public class MainController {
         List<Student> students = new ArrayList<>(new StudentRepository().takeData());
         studentsTable.setItems(FXCollections.observableList(students));
 
+
         //initialize muse click action
         initializeMouseDoubleClickActionOnTable();
     }

@@ -4,14 +4,13 @@ import com.solovev.model.Car;
 import com.solovev.model.Student;
 import com.solovev.repositories.CarRepository;
 import com.solovev.repositories.Repository;
+import com.solovev.util.TableColumnBuilder;
 import com.solovev.util.WindowManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
@@ -69,6 +68,46 @@ public class CarsTableController implements ControllerData<Student> {
         columnBrand.setCellValueFactory(new PropertyValueFactory<>("brand"));
         columnYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         columnPower.setCellValueFactory(new PropertyValueFactory<>("power"));
+
+        createAndAddButtonsColumn();
+    }
+    private void createAndAddButtonsColumn(){
+        TableColumnBuilder<Car> tableColumnBuilder = new TableColumnBuilder<>();
+        tableColumnBuilder.addButtonToColumn(this::modifyButtonFactory);
+        tableColumnBuilder.addButtonToColumn(this::deleteButtonFactory);
+
+        //crete header
+        tableColumnBuilder.addHeader(addButtonFactory());
+
+        tableCars.getColumns().add(tableColumnBuilder.getColumnWithButtons());
+    }
+    private Button addButtonFactory(){
+        Button addButton = new Button("+ Add");
+        addButton.getStyleClass().add("success");
+        addButton.setAlignment(Pos.CENTER_RIGHT);
+        return addButton;
+    }
+
+    private Button deleteButtonFactory(){
+        Button deleteButton = getButtonTemplate("Delete");
+        deleteButton.getStyleClass().add("danger");
+        //todo add func
+        deleteButton.setOnAction(event -> System.out.println("deleted"));
+        return deleteButton;
+    }
+    private Button modifyButtonFactory(){
+        Button modifyButton = getButtonTemplate("Modify");
+        modifyButton.getStyleClass().add("accent");
+        //todo add func
+        modifyButton.setOnAction(event -> System.out.println("modified"));
+        return modifyButton;
+    }
+    private Button getButtonTemplate(String buttonName){
+        Button button = new Button(buttonName);
+        button.setAlignment(Pos.CENTER);
+        button.getStyleClass().addAll("button-outlined","small");
+
+        return button;
     }
 
     /**
@@ -86,7 +125,4 @@ public class CarsTableController implements ControllerData<Student> {
                 .toList();
     }
 
-    @FXML
-    public void addCarButton(ActionEvent actionEvent) {
-    }
 }
