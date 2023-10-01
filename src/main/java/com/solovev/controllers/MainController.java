@@ -2,6 +2,7 @@ package com.solovev.controllers;
 
 import com.solovev.model.Student;
 import com.solovev.repositories.StudentRepository;
+import com.solovev.util.TableColumnBuilder;
 import com.solovev.util.WindowManager;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -51,35 +52,45 @@ public class MainController {
         columnNum.setCellValueFactory(new PropertyValueFactory<>("num"));
         columnSalary.setCellValueFactory(new PropertyValueFactory<>("salary"));
 
-        addDeleteButtonColumn();
+        createAndAddButtonsColumn();
     }
-    private void addDeleteButtonColumn(){
-        TableColumn<Student, Button> buttonTableColumn = new TableColumn<>("Delete");
-        studentsTable.getColumns().add(buttonTableColumn);
-        buttonTableColumn.setCellFactory(tc -> new TableCell<>(){
-                    final Button btn = deleteButtonFactory();
-                    @Override
-                    public void updateItem(Button item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                            setText(null);
-                        } else {
-                            setGraphic(btn);
-                            setText(null);
-                        }
-                    }
-                }
-        );
+    private void createAndAddButtonsColumn(){
+        TableColumnBuilder<Student> tableColumnBuilder = new TableColumnBuilder<>();
+        tableColumnBuilder.addButtonToColumn(this::modifyButtonFactory);
+        tableColumnBuilder.addButtonToColumn(this::deleteButtonFactory);
+
+        //crete header
+        tableColumnBuilder.addHeader(addButtonFactory());
+
+        studentsTable.getColumns().add(tableColumnBuilder.getColumnWithButtons());
+    }
+    private Button addButtonFactory(){
+        Button addButton = new Button("+ Add");
+        addButton.getStyleClass().add("success");
+        addButton.setAlignment(Pos.CENTER_RIGHT);
+        return addButton;
     }
 
     private Button deleteButtonFactory(){
-        Button deleteButton = new Button("Delete");
-        deleteButton.setAlignment(Pos.CENTER);
+        Button deleteButton = getButtonTemplate("Delete");
         deleteButton.getStyleClass().add("danger");
         //todo add func
         deleteButton.setOnAction(event -> System.out.println("deleted"));
         return deleteButton;
+    }
+    private Button modifyButtonFactory(){
+        Button modifyButton = getButtonTemplate("Modify");
+        modifyButton.getStyleClass().add("accent");
+        //todo add func
+        modifyButton.setOnAction(event -> System.out.println("modified"));
+        return modifyButton;
+    }
+    private Button getButtonTemplate(String buttonName){
+        Button button = new Button(buttonName);
+        button.setAlignment(Pos.CENTER);
+        button.getStyleClass().addAll("button-outlined","small");
+
+        return button;
     }
 
 
@@ -108,7 +119,4 @@ public class MainController {
         }
     }
 
-    @FXML
-    public void addStudentButton(ActionEvent actionEvent) {
-    }
 }

@@ -4,30 +4,25 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="416.0" stylesheets="@bootstrap3.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.controllers.MainController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" stylesheets="@primer-light.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.controllers.MainController">
    <children>
-      <TableView fx:id="studentsTable" layoutX="10.0" layoutY="109.0" prefHeight="277.0" prefWidth="399.0">
+      <TableView fx:id="studentsTable" layoutX="25.0" layoutY="85.0" prefHeight="306.0" prefWidth="550.0">
          <columns>
             <TableColumn fx:id="columnId" prefWidth="35.0" text="Id" />
-            <TableColumn fx:id="columnName" prefWidth="87.0" text="Name" />
-            <TableColumn fx:id="columnAge" prefWidth="50.0" text="Age" />
-            <TableColumn fx:id="columnNum" prefWidth="52.0" text="Num" />
-            <TableColumn fx:id="columnSalary" prefWidth="90.0" text="Salary" />
+            <TableColumn fx:id="columnName" prefWidth="104.0" text="Name" />
+            <TableColumn fx:id="columnAge" prefWidth="49.0" text="Age" />
+            <TableColumn fx:id="columnNum" prefWidth="48.0" text="Num" />
+            <TableColumn fx:id="columnSalary" prefWidth="92.0" text="Salary" />
          </columns></TableView>
-      <Label layoutX="161.0" layoutY="8.0" text="Students">
+      <Label layoutX="253.0" layoutY="14.0" text="Students">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label layoutX="10.0" layoutY="43.0" prefHeight="42.0" prefWidth="399.0" text="Double-clicking on a table element displays all the cars of the selected student." textAlignment="CENTER" wrapText="true">
+      <Label layoutX="56.0" layoutY="43.0" prefHeight="42.0" prefWidth="489.0" text="Double-clicking on a table element displays all the cars of the selected student." textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Arial Italic" size="14.0" />
          </font>
       </Label>
-      <Button layoutX="343.0" layoutY="69.0" mnemonicParsing="false" onAction="#addStudentButton" styleClass="success" text="+ Add">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
