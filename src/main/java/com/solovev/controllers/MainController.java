@@ -5,7 +5,6 @@ import com.solovev.repositories.StudentRepository;
 import com.solovev.util.TableColumnBuilder;
 import com.solovev.util.WindowManager;
 import javafx.collections.FXCollections;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -113,7 +112,7 @@ public class MainController {
      */
     private void openCarsWindow(Student student) {
         try {
-            WindowManager.openWindowAndWait("/com/solovev/CarsTable.fxml", "Student's cars", student);
+            WindowManager.openWindowAndWait("/com/solovev/carsTable.fxml", "Student's cars", student);
         } catch (IOException e) {
             WindowManager.showAlertWithoutHeaderText("IO Exception occurred", e.toString(), Alert.AlertType.ERROR);
             throw new RuntimeException(e);

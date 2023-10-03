@@ -4,17 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-public class StudentFormController {
+public class CarsFormController {
     @FXML
-    public TextField nameField;
+    public TextField brandField;
     @FXML
-    public TextField numField;
+    public TextField powerField;
     @FXML
-    public TextField salaryField;
+    public TextField yearField;
     @FXML
-    public void saveButton(ActionEvent actionEvent) {
-    }
+    public TextField studentIdField;
     @FXML
     public void declineButton(ActionEvent actionEvent) {
+    }
+    @FXML
+    public void saveButton(ActionEvent actionEvent) {
     }
 }
