@@ -3,33 +3,36 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="311.0" prefWidth="500.0" stylesheets="@primer-light.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.solovev.controllers.CarsTableController">
+<AnchorPane prefHeight="311.0" prefWidth="500.0" stylesheets="@primer-light.css"
+            xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.solovev.controllers.CarsTableController">
     <children>
         <TableView fx:id="tableCars" layoutX="3.0" layoutY="113.0" prefHeight="198.0" prefWidth="500.0">
             <columns>
-                <TableColumn fx:id="columnID" prefWidth="75.0" text="Id" />
-                <TableColumn fx:id="columnBrand" prefWidth="75.0" text="Brand" />
-                <TableColumn fx:id="columnPower" prefWidth="75.0" text="Power" />
-                <TableColumn fx:id="columnYear" prefWidth="75.0" text="Year" />
+                <TableColumn fx:id="columnID" prefWidth="75.0" text="Id"/>
+                <TableColumn fx:id="columnBrand" prefWidth="75.0" text="Brand"/>
+                <TableColumn fx:id="columnPower" prefWidth="75.0" text="Power"/>
+                <TableColumn fx:id="columnYear" prefWidth="75.0" text="Year"/>
             </columns>
         </TableView>
         <GridPane layoutX="14.0" layoutY="15.0" prefHeight="90.0" prefWidth="269.0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="178.0" minWidth="10.0" prefWidth="77.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="160.0" minWidth="10.0" prefWidth="134.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="178.0" minWidth="10.0" prefWidth="77.0"/>
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="160.0" minWidth="10.0" prefWidth="134.0"/>
             </columnConstraints>
             <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Label text="Student Id:" />
-                <Label text="Student name:" GridPane.rowIndex="1" />
-                <Label text="Student num:" GridPane.rowIndex="2" />
-                <Label fx:id="labelID" prefHeight="17.0" prefWidth="115.0" text="ID" GridPane.columnIndex="1" />
-                <Label fx:id="labelName" prefHeight="20.0" prefWidth="106.0" text="Name" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                <Label fx:id="labelNum" text="Num" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <Label text="Student Id:"/>
+                <Label text="Student name:" GridPane.rowIndex="1"/>
+                <Label text="Student num:" GridPane.rowIndex="2"/>
+                <Label fx:id="labelID" prefHeight="17.0" prefWidth="115.0" text="ID" GridPane.columnIndex="1"/>
+                <Label fx:id="labelName" prefHeight="20.0" prefWidth="106.0" text="Name" GridPane.columnIndex="1"
+                       GridPane.rowIndex="1"/>
+                <Label fx:id="labelNum" text="Num" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
             </children>
         </GridPane>
     </children>
