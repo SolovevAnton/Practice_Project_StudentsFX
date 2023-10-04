@@ -2,6 +2,7 @@ package com.solovev.util;
 
 import com.solovev.App;
 import com.solovev.controllers.ControllerData;
+import com.solovev.controllers.ControllerRetrieveData;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -50,7 +51,7 @@ public class WindowManager {
      * @param title of the stage
      * @param data  to pass to the stage, or null if nothing
      * @return created stage
-     * @throws IOException if IO occurred
+     * @throws IOException
      */
     public static <T> Stage openWindow(String name, String title, T data) throws IOException {
         Stage stage = getStage(name, title, data);
@@ -65,13 +66,18 @@ public class WindowManager {
      * @param title of the stage
      * @param data  to pass to the stage, or null if nothing
      * @return created stage
-     * @throws IOException if IO occurred
+     * @throws IOException
      */
     public static <T> Stage openWindowAndWait(String name, String title, T data) throws IOException {
         Stage stage = getStage(name, title, data);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
         return stage;
+    }
+    public static <T,U> U openWindowAndWaitWithRetrieveData(String name, String title, T data) throws IOException {
+        FXMLLoader loader = (FXMLLoader) openWindowAndWait(name,title,data).getUserData();
+        ControllerRetrieveData<U> controllerWithData = loader.getController();
+        return controllerWithData.retrieveData();
     }
 
     /**

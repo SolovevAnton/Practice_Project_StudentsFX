@@ -1,23 +1,13 @@
 package com.solovev;
 
+import com.solovev.util.FormsManager;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class App extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        String mainForm = "/com/solovev/main.fxml";
-
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(mainForm));
-
-        Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Front for Student Servlet");
-        stage.setScene(scene);
-        stage.show();
+    public void start(Stage stage) {
+        FormsManager.openMainForm();
     }
 
     public static void main(String[] args) {

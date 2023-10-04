@@ -2,6 +2,7 @@ package com.solovev.controllers;
 
 import com.solovev.model.Student;
 import com.solovev.repositories.StudentRepository;
+import com.solovev.util.FormsManager;
 import com.solovev.util.TableColumnBuilder;
 import com.solovev.util.WindowManager;
 import javafx.collections.FXCollections;
@@ -100,23 +101,9 @@ public class MainController {
     private void initializeMouseDoubleClickActionOnTable() {
         studentsTable.setOnMouseClicked(event -> {
             if (event.getClickCount() == 2) {
-                openCarsWindow(studentsTable.getSelectionModel().getSelectedItem());
+                FormsManager.openCarsForm(studentsTable.getSelectionModel().getSelectedItem());
             }
         });
-    }
-
-    /**
-     * opens window with student cars
-     *
-     * @param student to open cars window for
-     */
-    private void openCarsWindow(Student student) {
-        try {
-            WindowManager.openWindowAndWait("/com/solovev/carsTable.fxml", "Student's cars", student);
-        } catch (IOException e) {
-            WindowManager.showAlertWithoutHeaderText("IO Exception occurred", e.toString(), Alert.AlertType.ERROR);
-            throw new RuntimeException(e);
-        }
     }
 
 }
