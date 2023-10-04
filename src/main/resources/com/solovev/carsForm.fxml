@@ -11,7 +11,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0"
             prefWidth="300.0" stylesheets="@primer-light.css" xmlns="http://javafx.com/javafx/19"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.solovev.controllers.CarsFormController">
+            fx:controller="com.solovev.controllers.CarsChangeFormController">
     <children>
         <GridPane layoutX="50.0" layoutY="14.0">
             <columnConstraints>

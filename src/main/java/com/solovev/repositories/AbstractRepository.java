@@ -41,25 +41,35 @@ public abstract class AbstractRepository<T> implements Repository<T> {
         this.tClass = tClass;
     }
 
-    /**
-     * checks if this response result in this stream contains data return this data, otherwise throws with message of the error
-     *
-     * @return Data or throws if got error message from server
-     * @throws IOException if IO exception occurs
-     */
-    private T streamProcessing(InputStream reader) throws IOException {
-        JavaType resultType =
-                objectMapper.getTypeFactory().constructParametricType(ResponseResult.class, tClass);
-
-        ResponseResult<T> responseResult = objectMapper.readValue(reader, resultType);
-        T data = responseResult.getData();
-        if (data != null) {
-            return data;
-        } else {
-            throw new IllegalArgumentException(responseResult.getMessage());
+    @Override
+    public T add(T elem) throws IOException {
+        try (InputStream reader = makeRequest(SupportedMethods.POST, elem)) {
+            return streamProcessing(reader);
         }
     }
 
+    @Override
+    public T delete(int elemId) throws IOException {
+        String request = "?id=" + elemId;
+        try (InputStream reader = makeRequest(request, SupportedMethods.DELETE)) {
+            return streamProcessing(reader);
+        }
+    }
+
+    @Override
+    public T takeData(int elemId) throws IOException {
+        String request = "?id=" + elemId;
+        try (InputStream reader = makeRequest(request, SupportedMethods.GET)) {
+            return streamProcessing(reader);
+        }
+    }
+
+    @Override
+    public T replace(T newElem) throws IOException {
+        try (InputStream reader = makeRequest(SupportedMethods.PUT, newElem)) {
+            return streamProcessing(reader);
+        }
+    }
 
     /**
      * made public only for tests
@@ -112,18 +122,22 @@ public abstract class AbstractRepository<T> implements Repository<T> {
         return httpURLConnection.getInputStream();
     }
 
-    @Override
-    public T add(T elem) throws IOException {
-        try (InputStream reader = makeRequest(SupportedMethods.POST, elem)) {
-            return streamProcessing(reader);
-        }
-    }
+    /**
+     * checks if this response result in this stream contains data return this data, otherwise throws with message of the error
+     *
+     * @return Data or throws if got error message from server
+     * @throws IOException if IO exception occurs
+     */
+    private T streamProcessing(InputStream reader) throws IOException {
+        JavaType resultType =
+                objectMapper.getTypeFactory().constructParametricType(ResponseResult.class, tClass);
 
-    @Override
-    public T delete(int elemId) throws IOException {
-        String request = "?id=" + elemId;
-        try (InputStream reader = makeRequest(request, SupportedMethods.DELETE)) {
-            return streamProcessing(reader);
+        ResponseResult<T> responseResult = objectMapper.readValue(reader, resultType);
+        T data = responseResult.getData();
+        if (data != null) {
+            return data;
+        } else {
+            throw new IllegalArgumentException(responseResult.getMessage());
         }
     }
 
@@ -142,21 +156,6 @@ public abstract class AbstractRepository<T> implements Repository<T> {
             } else {
                 throw new IllegalArgumentException(responseResult.getMessage());
             }
-        }
-    }
-
-    @Override
-    public T takeData(int elemId) throws IOException {
-        String request = "?id=" + elemId;
-        try (InputStream reader = makeRequest(request, SupportedMethods.GET)) {
-            return streamProcessing(reader);
-        }
-    }
-
-    @Override
-    public T replace(T newElem) throws IOException {
-        try (InputStream reader = makeRequest(SupportedMethods.PUT, newElem)) {
-            return streamProcessing(reader);
         }
     }
 
