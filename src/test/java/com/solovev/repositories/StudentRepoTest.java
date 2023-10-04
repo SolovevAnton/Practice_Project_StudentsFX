@@ -7,10 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assume.assumeNoException;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 public class StudentRepoTest {
     @Test
@@ -23,8 +21,6 @@ public class StudentRepoTest {
         Student student = students.takeData(1);
         Student otherStudent =  collectionStudents.get(0);
         assertEquals(student,otherStudent);
-
-
     }
 
 }
