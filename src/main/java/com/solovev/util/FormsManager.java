@@ -14,11 +14,6 @@ public class FormsManager extends WindowManager {
         void run() throws IOException;
     }
 
-    @FunctionalInterface
-    private interface SupplierWithIoExpThrows<T> {
-        T get() throws IOException;
-    }
-
     public static void openMainForm() {
         ioExceptionHandler(() -> openWindow("/com/solovev/main.fxml", "Front for Student Servlet", null));
     }
@@ -27,16 +22,8 @@ public class FormsManager extends WindowManager {
         ioExceptionHandler(() -> openWindowAndWait("/com/solovev/carsTable.fxml", "Student's cars", student));
     }
 
-    public static boolean openStudentChangeForm(Student student) {
-        SupplierWithIoExpThrows<Boolean> openStudentChangeForm = () -> openWindowAndWaitWithRetrieveData("/com/solovev/studentChangeFrom.fxml", "Modify student", student);
-        //returns if changes should be saved or not
-        boolean result = false;
-        try {
-            result = ioExceptionHandler(openStudentChangeForm);
-        } catch (IllegalArgumentException e) {
-            handleIllegalArgumentException(e);
-        }
-        return result;
+    public static void openStudentChangeForm(Student student) {
+        ioExceptionHandler(() -> openWindowAndWait("/com/solovev/studentChangeFrom.fxml", "Modify student", student));
     }
 
     /**
@@ -52,22 +39,8 @@ public class FormsManager extends WindowManager {
         }
     }
 
-    private static <T> T ioExceptionHandler(SupplierWithIoExpThrows<T> method) {
-        T result = null;
-        try {
-            result = method.get();
-        } catch (IOException e) {
-            handleIOException(e);
-        }
-        return result;
-    }
-
     private static void handleIOException(IOException e) {
         showAlertWithoutHeaderText("IOException Occurred!", e.toString(), Alert.AlertType.ERROR);
         throw new RuntimeException(e);
-    }
-
-    private static void handleIllegalArgumentException(IllegalArgumentException e) {
-        showAlertWithoutHeaderText("Illegal argument", e.toString(), Alert.AlertType.WARNING);
     }
 }

@@ -66,14 +66,7 @@ public class MainController {
     private void createAndAddButtonsColumn() throws IOException {
         TableColumnBuilder<Student> tableColumnBuilder = new TableColumnBuilder<>();
 
-        tableColumnBuilder.addButtonToColumn(() -> {
-            try {
-                return modifyButtonFactory();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
+        tableColumnBuilder.addButtonToColumn(this::modifyButtonFactory);
         tableColumnBuilder.addButtonToColumn(this::deleteButtonFactory);
 
         //crete header
@@ -88,30 +81,19 @@ public class MainController {
         addButton.setAlignment(Pos.CENTER_RIGHT);
 
         Student studentToSave = new Student();
-        boolean saveData = addButtonBehaviorAndStudentToChange(studentToSave, addButton);
-        if (saveData) {
-            studentRepo.add(studentToSave);
-        }
+        addButton.setOnAction((event) -> FormsManager.openStudentChangeForm(studentToSave));
         return addButton;
     }
 
-    private Button modifyButtonFactory() throws IOException {
+    private Button modifyButtonFactory() {
         Button modifyButton = getButtonTemplate("Modify");
         modifyButton.getStyleClass().add("accent");
 
         Student studentToSave = getSelectedItem();
-        boolean saveData = addButtonBehaviorAndStudentToChange(studentToSave, modifyButton);
-        if (saveData) {
-            studentRepo.add(studentToSave);
-        }
+        modifyButton.setOnAction((event) -> FormsManager.openStudentChangeForm(studentToSave));
         return modifyButton;
     }
 
-    private boolean addButtonBehaviorAndStudentToChange(Student studentToChange, Button buttonToStudentForm) throws IOException {
-        AtomicBoolean saveData = new AtomicBoolean(false);
-        buttonToStudentForm.setOnAction((event) -> saveData.set(FormsManager.openStudentChangeForm(studentToChange)));
-        return saveData.get();
-    }
 
     private Button deleteButtonFactory() {
         Button deleteButton = getButtonTemplate("Delete");
