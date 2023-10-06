@@ -81,7 +81,7 @@ public class MainController {
         addButton.setAlignment(Pos.CENTER_RIGHT);
 
         Student studentToSave = new Student();
-        addButton.setOnAction((event) -> FormsManager.openStudentChangeForm(studentToSave));
+        addButton.setOnAction((event) -> studentUpdateAction(studentToSave));
         return addButton;
     }
 
@@ -89,11 +89,18 @@ public class MainController {
         Button modifyButton = getButtonTemplate("Modify");
         modifyButton.getStyleClass().add("accent");
 
-        Student studentToSave = getSelectedItem();
-        modifyButton.setOnAction((event) -> FormsManager.openStudentChangeForm(studentToSave));
+        Student studentToModify = getSelectedItem();
+        modifyButton.setOnAction((event) -> studentUpdateAction(studentToModify));
         return modifyButton;
     }
-
+    private void studentUpdateAction(Student studentToSaveOrUpdate){
+        FormsManager.openStudentChangeForm(studentToSaveOrUpdate);
+        try {
+            reloadTableValues();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private Button deleteButtonFactory() {
         Button deleteButton = getButtonTemplate("Delete");

@@ -30,4 +30,11 @@ public interface Repository<T> {
          */
         T replace(T newElem) throws IOException;
 
+        /**
+         * Checks if this repo contains element with this id;
+         * @param elemId to check presence
+         * @return true if is found false otherwise
+         */
+        boolean contains(int elemId) throws IOException;
+
 }

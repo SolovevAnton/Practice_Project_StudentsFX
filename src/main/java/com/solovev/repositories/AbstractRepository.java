@@ -159,4 +159,13 @@ public abstract class AbstractRepository<T> implements Repository<T> {
         }
     }
 
+    @Override
+    public boolean contains(int elemId) throws IOException {
+        try{
+            takeData(elemId);
+            return  true;
+        } catch (IllegalArgumentException ignored){
+            return false;
+        }
+    }
 }
