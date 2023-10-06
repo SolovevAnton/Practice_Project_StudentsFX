@@ -1,6 +1,10 @@
 package com.solovev.util;
 
+import com.solovev.model.Student;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -16,6 +20,7 @@ import java.util.function.Supplier;
 public class TableColumnBuilder<T> {
     private final List<Supplier<Button>> listOfButtonSuppliers = new ArrayList<>();
     private final TableColumn<T, Button> buttonTableColumn = new TableColumn<>();
+
     public TableColumn<T, Button> getColumnWithButtons() {
         buttonTableColumn.setCellFactory(tc -> new TableCell<>() {
                     final ButtonBar buttonBar = new ButtonBar();
@@ -23,6 +28,14 @@ public class TableColumnBuilder<T> {
 
                     {
                         listOfButtonSuppliers.forEach(supplier -> buttons.add(supplier.get()));
+                        buttons.forEach((node) -> addButtonSelectRowAction((Button) node));
+                    }
+                    private void addButtonSelectRowAction(Button button){
+                        EventHandler<ActionEvent> eventHandler = button.getOnAction();
+                        button.setOnAction((event)-> {
+                            getTableView().getSelectionModel().select(getIndex());
+                            eventHandler.handle(event);
+                        });
                     }
 
                     @Override
@@ -44,7 +57,8 @@ public class TableColumnBuilder<T> {
     public void addButtonToColumn(Supplier<Button> buttonSupplier) {
         listOfButtonSuppliers.add(buttonSupplier);
     }
-    public void addHeader(Button button){
+
+    public void addHeader(Button button) {
         HBox buttonWrapper = new HBox(button);
         buttonWrapper.setAlignment(Pos.CENTER_RIGHT);
         buttonTableColumn.setGraphic(buttonWrapper);

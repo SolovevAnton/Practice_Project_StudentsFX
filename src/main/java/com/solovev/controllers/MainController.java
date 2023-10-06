@@ -47,6 +47,7 @@ public class MainController {
         studentRepo = new StudentRepository();
         List<Student> students = new ArrayList<>(studentRepo.takeData());
         studentsTable.setItems(FXCollections.observableList(students));
+        studentsTable.refresh();
     }
 
     /**
@@ -80,8 +81,7 @@ public class MainController {
         addButton.getStyleClass().add("success");
         addButton.setAlignment(Pos.CENTER_RIGHT);
 
-        Student studentToSave = new Student();
-        addButton.setOnAction((event) -> studentUpdateAction(studentToSave));
+        addButton.setOnAction((event) -> studentUpdateAction(new Student()));
         return addButton;
     }
 
@@ -89,11 +89,13 @@ public class MainController {
         Button modifyButton = getButtonTemplate("Modify");
         modifyButton.getStyleClass().add("accent");
 
-        Student studentToModify = getSelectedItem();
-        modifyButton.setOnAction((event) -> studentUpdateAction(studentToModify));
+        modifyButton.setOnAction((event) -> {
+            studentUpdateAction(getSelectedItem());
+        });
         return modifyButton;
     }
-    private void studentUpdateAction(Student studentToSaveOrUpdate){
+
+    private void studentUpdateAction(Student studentToSaveOrUpdate) {
         FormsManager.openStudentChangeForm(studentToSaveOrUpdate);
         try {
             reloadTableValues();
