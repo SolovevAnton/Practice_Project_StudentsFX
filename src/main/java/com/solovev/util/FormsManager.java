@@ -1,5 +1,6 @@
 package com.solovev.util;
 
+import com.solovev.model.Car;
 import com.solovev.model.Student;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -26,6 +27,9 @@ public class FormsManager extends WindowManager {
 
     public static void openStudentChangeForm(Student student) {
         ioExceptionHandler(() -> openWindowAndWait("/com/solovev/studentChangeFrom.fxml", "Modify student", student));
+    }
+    public static void openCarsChangeFrom(Car car){
+        ioExceptionHandler(() -> openWindowAndWait("/com/solovev/carsChangeForm.fxml","Modify Car",car));
     }
     public static Optional<ButtonType> openConfirmationDeleteDialog(){
         return showAlertWithoutHeaderText("Confirmation dialog","Are you sure you want to delete this instance?", Alert.AlertType.CONFIRMATION);

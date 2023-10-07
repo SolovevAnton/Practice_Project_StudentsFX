@@ -6,7 +6,7 @@ import com.solovev.util.Constants;
 import java.io.IOException;
 
 public class StudentRepository extends AbstractRepository<Student> {
-    public StudentRepository() throws IOException {
+    public StudentRepository() {
         super(Constants.SERVER_URL,"/students", Student.class);
     }
 }

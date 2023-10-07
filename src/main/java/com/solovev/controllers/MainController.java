@@ -32,7 +32,7 @@ public class MainController {
     public TableColumn<Student, Integer> columnNum;
     @FXML
     public TableColumn<Student, Double> columnSalary;
-    private Repository<Student> studentRepo;
+    private final Repository<Student> studentRepo = new StudentRepository();
 
     public void initialize() throws IOException {
         //initialize columns
@@ -46,7 +46,6 @@ public class MainController {
     }
 
     private void reloadTableValues() throws IOException {
-        studentRepo = new StudentRepository();
         List<Student> students = new ArrayList<>(studentRepo.takeData());
         studentsTable.setItems(FXCollections.observableList(students));
         studentsTable.refresh();
