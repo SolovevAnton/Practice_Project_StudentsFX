@@ -1,21 +1,23 @@
 package com.solovev.controllers;
 
 import com.solovev.model.Student;
+import com.solovev.repositories.Repository;
 import com.solovev.repositories.StudentRepository;
 import com.solovev.util.FormsManager;
 import com.solovev.util.TableColumnBuilder;
-import com.solovev.util.WindowManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.beans.EventHandler;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Optional;
 
 public class MainController {
     @FXML
@@ -30,7 +32,7 @@ public class MainController {
     public TableColumn<Student, Integer> columnNum;
     @FXML
     public TableColumn<Student, Double> columnSalary;
-    private StudentRepository studentRepo;
+    private Repository<Student> studentRepo;
 
     public void initialize() throws IOException {
         //initialize columns
@@ -80,7 +82,6 @@ public class MainController {
         Button addButton = new Button("+ Add");
         addButton.getStyleClass().add("success");
         addButton.setAlignment(Pos.CENTER_RIGHT);
-
         addButton.setOnAction((event) -> studentUpdateAction(new Student()));
         return addButton;
     }
@@ -88,10 +89,7 @@ public class MainController {
     private Button modifyButtonFactory() {
         Button modifyButton = getButtonTemplate("Modify");
         modifyButton.getStyleClass().add("accent");
-
-        modifyButton.setOnAction((event) -> {
-            studentUpdateAction(getSelectedItem());
-        });
+        modifyButton.setOnAction((event) ->  studentUpdateAction(getSelectedItem()));
         return modifyButton;
     }
 
@@ -107,8 +105,7 @@ public class MainController {
     private Button deleteButtonFactory() {
         Button deleteButton = getButtonTemplate("Delete");
         deleteButton.getStyleClass().add("danger");
-        //todo add func
-        deleteButton.setOnAction(event -> System.out.println("deleted"));
+        deleteButton.setOnAction(event -> deleteStudentAction());
         return deleteButton;
     }
 
@@ -118,6 +115,18 @@ public class MainController {
         button.getStyleClass().addAll("button-outlined", "small");
 
         return button;
+    }
+    private void deleteStudentAction(){
+        Optional<ButtonType> chosenButton = FormsManager.openConfirmationDeleteDialog();
+        if(chosenButton.orElse(ButtonType.CANCEL) == ButtonType.OK) {
+            try {
+                int studentId = getSelectedItem().getId();
+                studentRepo.delete(studentId);
+                reloadTableValues();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
 

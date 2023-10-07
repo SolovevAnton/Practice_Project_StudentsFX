@@ -8,11 +8,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * Class with static methods to open and close windows of different types
@@ -98,11 +100,11 @@ public class WindowManager {
      * @param content   content of the alert
      * @param alertType type
      */
-    public static void showAlertWithoutHeaderText(String title, String content, Alert.AlertType alertType) {
+    public static Optional<ButtonType> showAlertWithoutHeaderText(String title, String content, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(content);
-        alert.showAndWait();
+        return alert.showAndWait();
     }
 }
