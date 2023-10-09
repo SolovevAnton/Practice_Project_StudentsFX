@@ -160,7 +160,7 @@ public abstract class AbstractRepository<T> implements Repository<T> {
     }
 
     @Override
-    public boolean contains(int elemId) throws IOException {
+    public boolean containsId(int elemId) throws IOException {
         try{
             takeData(elemId);
             return  true;

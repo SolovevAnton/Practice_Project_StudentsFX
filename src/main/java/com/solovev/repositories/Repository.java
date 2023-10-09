@@ -35,6 +35,6 @@ public interface Repository<T> {
          * @param elemId to check presence
          * @return true if is found false otherwise
          */
-        boolean contains(int elemId) throws IOException;
+        boolean containsId(int elemId) throws IOException;
 
 }

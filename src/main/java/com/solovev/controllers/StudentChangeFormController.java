@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
 import java.io.IOException;
+import java.time.format.DateTimeParseException;
+import java.util.zip.DataFormatException;
 
 public class StudentChangeFormController implements ControllerData<Student> {
     @FXML
@@ -31,7 +33,7 @@ public class StudentChangeFormController implements ControllerData<Student> {
             if (updateSuccess) {
                 int studentsId = student.getId();
                 // choose between save or add methods
-                if (repo.contains(studentsId)) {
+                if (repo.containsId(studentsId)) {
                     repo.replace(student);
                 } else {
                     repo.add(student);
@@ -39,7 +41,7 @@ public class StudentChangeFormController implements ControllerData<Student> {
                 FormsManager.closeWindow(actionEvent);
             }
         } catch (IllegalArgumentException e) {
-            FormsManager.showAlertWithoutHeaderText("Illegal argument", e.toString(), Alert.AlertType.WARNING);
+            FormsManager.showAlertWithoutHeaderText("Illegal argument", e.getMessage(), Alert.AlertType.WARNING);
         }
     }
 
@@ -55,8 +57,8 @@ public class StudentChangeFormController implements ControllerData<Student> {
             student.setNum(num);
             student.setSalary(salary);
             updateSuccess = true;
-        } catch (NumberFormatException e) {
-            FormsManager.showAlertWithoutHeaderText("Number format exception", e.toString(), Alert.AlertType.WARNING);
+        } catch (NumberFormatException | DateTimeParseException e) {
+            FormsManager.showAlertWithoutHeaderText("Wrong input", e.toString(), Alert.AlertType.WARNING);
         }
         return updateSuccess;
     }

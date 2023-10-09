@@ -83,7 +83,9 @@ public class CarsTableController implements ControllerData<Student> {
         Button addButton = new Button("+ Add");
         addButton.getStyleClass().add("success");
         addButton.setAlignment(Pos.CENTER_RIGHT);
+
         Car carToAdd = new Car();
+        carToAdd.setIdStudent(student.getId());
         addButton.setOnAction(event -> modifyCarAction(carToAdd));
         return addButton;
     }
@@ -91,8 +93,7 @@ public class CarsTableController implements ControllerData<Student> {
     private Button modifyButtonFactory() {
         Button modifyButton = getButtonTemplate("Modify");
         modifyButton.getStyleClass().add("accent");
-        Car carToModify = getSelected();
-        modifyButton.setOnAction(event -> modifyCarAction(carToModify));
+        modifyButton.setOnAction(event -> modifyCarAction(getSelectedItem()));
         return modifyButton;
     }
 
@@ -124,7 +125,7 @@ public class CarsTableController implements ControllerData<Student> {
         Optional<ButtonType> selectedButtonType = FormsManager.openConfirmationDeleteDialog();
         if (selectedButtonType.isPresent() && selectedButtonType.get() == ButtonType.OK) {
             try {
-                int carId = getSelected().getId();
+                int carId = getSelectedItem().getId();
                 carRepo.delete(carId);
                 reloadTableValues();
             } catch (IOException e) {
@@ -133,7 +134,7 @@ public class CarsTableController implements ControllerData<Student> {
         }
     }
 
-    private Car getSelected() {
+    private Car getSelectedItem() {
         return tableCars.getSelectionModel().getSelectedItem();
     }
 
